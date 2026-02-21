@@ -9,7 +9,7 @@
 
 &mt {
     flavor = "balanced";
-    quick-tap-ms = <0>;
+    quick-tap-ms = <175>;
 };
 
 / {
@@ -36,7 +36,7 @@
 &kp Q      &kp W           &kp E         &kp R             &kp T                                &kp Y          &kp U                &kp I     &kp O     &kp P
 &kp A      &kp S           &kp D         &kp F             &kp G                                &kp H          &kp J                &kp K     &kp L     &kp ENTER
 &mt LSHIFT Z  &kp X        &kp C         &kp V             &kp B                                &kp N          &kp M                &kp COMMA     &kp DOT       &mt RSHIFT SLASH
-&lt 6 ESC     &kp LCTRL    &kp LEFT_ALT  &mt LCMD INT_MUHENKAN  &lt 1 SPACE  &lt_to_layer_0 2 TAB    &lt 3 BACKSPACE  &mt RCMD INT_HENKAN    &kp RCTRL     &kp DELETE
+&lt 6 ESC     &kp LCTRL    &kp LEFT_ALT  &mt LCMD INT_MUHENKAN  &lt 1 SPACE  &lt_to_layer_0 2 TAB    &lt 3 BACKSPACE  &mt RCMD INT_HENKAN    &kp RCTRL     &sk LSHIFT
             >;
 
             sensor-bindings = <&inc_dec_kp PG_UP PAGE_DOWN>;
@@ -63,7 +63,7 @@
         ARROW {
             bindings = <
 &kp ESCAPE      &kp LC(LS(TAB))  &kp UP_ARROW    &kp LC(TAB)      &trans                                          &kp LA(NUMBER_1)  &kp LA(NUMBER_2)  &kp LA(NUMBER_3)  &kp LA(NUMBER_4)  &kp LA(NUMBER_5)
-&kp HOME        &kp LEFT_ARROW   &kp DOWN_ARROW  &kp RIGHT_ARROW  &kp END  &trans    &trans          &kp LEFT_ARROW    &kp DOWN_ARROW    &kp UP_ARROW      &kp RIGHT_ARROW   &trans
+&kp HOME        &kp LEFT_ARROW   &kp DOWN_ARROW  &kp RIGHT_ARROW  &kp END  &trans    &trans          &kp LEFT_ARROW    &kp DOWN_ARROW    &kp UP_ARROW      &kp RIGHT_ARROW   &kp DELETE
 &kp LEFT_SHIFT  &kp PG_UP        &kp PG_DN       &trans           &trans   &trans    &trans          &kp C_MUTE        &kp C_VOL_DN      &kp C_VOL_UP      &kp C_BRI_DN      &kp C_BRI_UP
 &trans          &trans           &trans          &trans           &trans   &trans    &trans          &trans                                                                  &trans
             >;
