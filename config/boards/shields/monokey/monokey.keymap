@@ -26,75 +26,6 @@
             key-positions = <12 13>;
         };
 
-        muhennkann {
-            bindings = <&to_layer_0 INT_MUHENKAN>;
-            key-positions = <11 10>;
-        };
-
-        double_quotation {
-            bindings = <&kp DOUBLE_QUOTES>;
-            key-positions = <20 21>;
-        };
-
-    };
-
-    macros {
-        to_layer_0: to_layer_0 {
-            compatible = "zmk,behavior-macro-one-param";
-            #binding-cells = <1>;
-            bindings = <&to 0 &macro_param_1to1 &kp MACRO_PLACEHOLDER>;
-            label = "TO_LAYER_0";
-        };
-
-         macro_repeated_backspace: macro_repeated_backspace {
-            compatible = "zmk,behavior-macro";
-            label = "MACRO_REPEATED_BACKSPACE";
-            #binding-cells = <0>;
-
-            bindings = <
-                &macro_repeat_press   // 「押している間繰り返し送信」
-                &kp BACKSPACE
-            >;
-        };
-    };
-
-
-     tap_dance {
-        compatible = "zmk,tap-dance";
-
-        td_backspace {
-            label = "TD_BACKSPACE";
-            // 1回タップ、2回タップを定義
-            taps = <1>, <2>;
-
-            // 1回タップ => &kp BACKSPACE
-            // 2回タップ => マクロを呼び出し連打
-            bindings = <
-                &kp BACKSPACE
-                &macro_repeated_backspace
-            >;
-        };
-    };
-
-    behaviors {
-        right_click: right_click_behavior {
-            compatible = "zmk,behavior-mouse-key";
-            label = "RIGHT_CLICK";
-            #binding-cells = <0>;
-            // 右クリックは通常 MB2 に対応（ZMKの標準定義）
-            bindings = <&mkp MB2>;
-        };
-
-         backspace_hold_layer: backspace_hold_layer {
-            compatible = "zmk,behavior-hold-tap";
-            label = "BACKSPACE_HOLD_LAYER";
-
-            // [タップ動作]       [ホールド動作]
-            bindings = < &tap_dance_td_backspace >, < &mo 3 >;
-
-            // ホールド判定の時間（例：200ms）
-            tapping-term-ms = <200>;
-        };
     };
 
     keymap {
@@ -105,7 +36,7 @@
 &kp Q      &kp W           &kp E         &kp R             &kp T                                &kp Y          &kp U                &kp I     &kp O     &kp P
 &kp A      &kp S           &kp D         &kp F             &kp G                                &kp H          &kp J                &kp K     &kp L     &kp ENTER
 &mt LSHIFT Z  &kp X        &kp C         &kp V             &kp B                                &kp N          &kp M                &kp COMMA     &kp DOT       &mt RSHIFT SLASH
-&lt 6 ESC     &kp LCTRL    &kp LEFT_ALT  &mt LCMD INT_MUHENKAN  &lt 1 SPACE  &lt_to_layer_0 2 TAB    &lt 3 BACKSPACE  &mt RCMD INT_HENKAN    &kp RCTRL     &kp ESC
+&lt 6 ESC     &kp LCTRL    &kp LEFT_ALT  &mt LCMD INT_MUHENKAN  &lt 1 SPACE  &lt_to_layer_0 2 TAB    &lt 3 BACKSPACE  &mt RCMD INT_HENKAN    &kp RCTRL     &kp DELETE
             >;
 
             sensor-bindings = <&inc_dec_kp PG_UP PAGE_DOWN>;
@@ -113,9 +44,9 @@
 
         FUNCTION {
             bindings = <
-&kp F1  &kp F2   &kp F3   &kp F4   &trans                    &kp MINUS        &kp KP_NUMBER_7  &kp KP_NUMBER_8  &kp KP_NUMBER_9  &kp PLUS
-&kp F5  &kp F6   &kp F7   &kp F8   &trans  &trans    &trans  &kp SLASH        &kp KP_NUMBER_4  &kp KP_NUMBER_5  &kp KP_NUMBER_6  &kp ASTERISK
-&kp F9  &kp F10  &kp F11  &kp F12  &trans  &trans    &trans  &kp KP_NUMBER_0  &kp KP_NUMBER_1  &kp KP_NUMBER_2  &kp KP_NUMBER_3  &kp PERIOD
+&kp F1  &kp F2   &kp F3   &kp F4   &trans                    &kp MINUS        &kp NUMBER_7  &kp NUMBER_8  &kp NUMBER_9  &kp PLUS
+&kp F5  &kp F6   &kp F7   &kp F8   &trans  &trans    &trans  &kp SLASH        &kp NUMBER_4  &kp NUMBER_5  &kp NUMBER_6  &kp ASTERISK
+&kp F9  &kp F10  &kp F11  &kp F12  &trans  &trans    &trans  &kp NUMBER_0  &kp NUMBER_1  &kp NUMBER_2  &kp NUMBER_3  &kp PERIOD
 &trans  &trans   &trans   &trans   &trans  &trans    &trans  &trans                                                                &trans
             >;
         };
@@ -124,7 +55,7 @@
             bindings = <
 &kp EXCLAMATION  &kp AT_SIGN  &kp HASH  &kp DOLLAR  &kp PERCENT                                                 &kp CARET  &kp AMPERSAND  &kp ASTERISK  &kp MINUS  &kp EQUAL
 &kp GRAVE  &kp TILDE  &kp UNDERSCORE  &kp PLUS  &kp PIPE  &trans    &trans  &kp COLON  &kp DOUBLE_QUOTES  &kp SEMICOLON  &kp SINGLE_QUOTE  &kp BACKSLASH
-&mt LSHIFT KP_NUMBER_0  &kp LESS_THAN  &kp LEFT_BRACE  &kp LEFT_BRACKET  &kp LEFT_PARENTHESIS  &trans    &trans  &kp RIGHT_PARENTHESIS  &kp RIGHT_BRACKET  &kp RIGHT_BRACE  &kp GREATER_THAN  &mt RSHIFT DOLLAR
+&mt LSHIFT NUMBER_0  &kp LESS_THAN  &kp LEFT_BRACE  &kp LEFT_BRACKET  &kp LEFT_PARENTHESIS  &trans    &trans  &kp RIGHT_PARENTHESIS  &kp RIGHT_BRACKET  &kp RIGHT_BRACE  &kp GREATER_THAN  &mt RSHIFT DOLLAR
 &trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans                                &trans
             >;
         };
