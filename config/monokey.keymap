@@ -45,6 +45,7 @@
             bindings = <&mo>, <&to_layer_0>;
             #binding-cells = <2>;
             tapping-term-ms = <200>;
+            quick-tap-ms = <300>;
         };
 
         right_click: right_click_behavior {
