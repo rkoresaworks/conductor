@@ -36,6 +36,16 @@
             bindings = <&mkp MB3>;
             key-positions = <19 18>;
         };
+
+        combo_ctrl {
+            bindings = <&kp LCTRL>;
+            key-positions = <11 12>; // S+D
+        };
+
+        combo_alt {
+            bindings = <&kp LEFT_ALT>;
+            key-positions = <12 13>; // D+F
+        };
     };
 
     behaviors {
@@ -67,7 +77,7 @@
 &kp Q         &kp W      &kp E         &kp R          &kp T                                          &kp Y        &kp U             &kp I      &kp O    &kp P
 &kp A         &kp S      &kp D         &kp F          &kp G                                          &kp H        &kp J             &kp K      &kp L    &kp MINUS
 &mt LSHIFT Z  &kp X      &kp C         &kp V          &kp B                                          &kp N        &kp M             &kp COMMA  &kp DOT  &mt RSHIFT SLASH
-&lt 6 TAB     &kp LCTRL  &kp LEFT_ALT  &mt LCMD LANG2 &lt 1 SPACE  &lt 2 BACKSPACE    &lt 3 ENTER  &mt RCMD LANG1    &kp RCTRL  &sk LSHIFT
+&kp LCTRL     &kp LEFT_ALT  &lt 6 TAB  &mt LCMD LANG2 &lt 1 SPACE  &lt 2 BACKSPACE    &lt 3 ENTER  &mt RCMD LANG1    &kp RALT   &kp RCTRL
             >;
 
             sensor-bindings = <&inc_dec_kp PG_UP PAGE_DOWN>;
