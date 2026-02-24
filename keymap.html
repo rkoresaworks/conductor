@@ -92,13 +92,15 @@
   <h3>Combos</h3>
   <div class="info-item"><span>K + L</span> (pos 17+18) → mo 5 (Scroll layer)</div>
   <div class="info-item"><span>- + L</span> (pos 19+18) → MB3 (Middle click)</div>
+  <div class="info-item"><span>S + D</span> (pos 11+12) → Ctrl</div>
+  <div class="info-item"><span>D + F</span> (pos 12+13) → Alt</div>
 </div>
 
 <div class="info-section">
   <h3>Settings</h3>
   <div class="info-item">&amp;mt: flavor = balanced, quick-tap = 300ms</div>
   <div class="info-item">&amp;lt: quick-tap = 300ms</div>
-  <div class="info-item">lt_to_layer_0: tapping-term = 200ms (hold → mo layer, tap → to layer 0 + keypress)</div>
+  <div class="info-item">&amp;lt: tapping-term = 200ms, quick-tap = 300ms</div>
   <div class="info-item">Encoder: PgUp / PgDn (Base), Ctrl+PgUp / Ctrl+PgDn (Arrow)</div>
 </div>
 
@@ -145,10 +147,10 @@ const layers = [
       },
       {
         left: [
-          {m:"Tab",h:"LT:6",c:"lt"}, {m:"Ctrl",c:"mod"}, {m:"Alt",c:"mod"}, {m:"LANG2",h:"GUI",c:"mod"}, {m:"Space",h:"LT:1",c:"lt"}, {m:"BS",h:"LT:2→L0",c:"lt"}
+          {m:"Ctrl",c:"mod"}, {m:"Alt",c:"mod"}, {m:"Tab",h:"LT:6",c:"lt"}, {m:"LANG2",h:"GUI",c:"mod"}, {m:"Space",h:"LT:1",c:"lt"}, {m:"BS",h:"LT:2",c:"lt"}
         ],
         right: [
-          {m:"Enter",h:"LT:3",c:"lt"}, {m:"LANG1",h:"GUI",c:"mod"}, {c:"gap"}, {m:"Ctrl",c:"mod"}, {m:"Shft",h:"Sticky",c:"mod"}
+          {m:"Enter",h:"LT:3",c:"lt"}, {m:"LANG1",h:"GUI",c:"mod"}, {c:"gap"}, {m:"RAlt",c:"mod"}, {m:"RCtrl",c:"mod"}
         ]
       }
     ]
