@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Conductor Keymap</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #e8e8e8; color: #333; padding: 24px; }
+  h1 { text-align: center; margin-bottom: 4px; font-size: 1.5rem; color: #222; }
+  .subtitle { text-align: center; color: #888; margin-bottom: 20px; font-size: 0.8rem; }
+  .view-toggle { display: flex; justify-content: center; gap: 8px; margin-bottom: 16px; }
+  .view-btn { padding: 6px 16px; border: 1px solid #ccc; border-radius: 6px; cursor: pointer; font-size: 0.78rem; background: #fff; color: #666; transition: all 0.2s; }
+  .view-btn:hover { background: #f0f0f0; }
+  .view-btn.active { background: #333; color: #fff; border-color: #333; }
+  .tabs { display: flex; justify-content: center; gap: 4px; margin-bottom: 16px; flex-wrap: wrap; }
+  .tab { padding: 6px 14px; border: 1px solid #ccc; border-radius: 6px; cursor: pointer; font-size: 0.75rem; background: #fff; color: #888; transition: all 0.2s; }
+  .tab:hover { background: #f5f5f5; color: #555; }
+  .tab.active { background: #e8740e; color: #fff; border-color: #e8740e; }
+  #tab-view .layer { display: none; }
+  #tab-view .layer.active { display: block; }
+  #all-view { display: none; }
+  #all-view .layer { display: block; margin-bottom: 32px; }
+  .layer-header { text-align: center; margin-bottom: 4px; }
+  .layer-title { font-size: 1rem; font-weight: 600; color: #333; }
+  .layer-desc { color: #999; font-size: 0.72rem; margin-bottom: 12px; text-align: center; }
+  .row { display: flex; justify-content: center; gap: 40px; margin-bottom: 4px; }
+  .row-half { display: flex; gap: 3px; }
+  .key {
+    width: 62px; height: 50px; border-radius: 5px; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; font-size: 0.72rem;
+    border: 1px solid #d0d0d0; background: #fff; position: relative; transition: all 0.15s;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+  }
+  .key:hover { transform: translateY(-1px); box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+  .key .hold { font-size: 0.55rem; color: #999; line-height: 1.1; }
+  .key .main { font-size: 0.8rem; font-weight: 600; color: #333; line-height: 1.2; }
+  .key.trans { background: #f0f0f0; border-color: #e0e0e0; }
+  .key.trans .main { color: #ccc; font-size: 0.7rem; }
+  .key.lt { background: #fdf0e0; border-color: #e8a050; }
+  .key.lt .hold { color: #c06000; }
+  .key.lt .main { color: #333; }
+  .key.mod { background: #f0f0f0; border-color: #c0c0c0; }
+  .key.mod .hold { color: #888; }
+  .key.special { background: #8b5cf6; border-color: #7c3aed; }
+  .key.special .main { color: #fff; }
+  .key.special .hold { color: rgba(255,255,255,0.7); }
+  .key.bt { background: #dbeafe; border-color: #93c5fd; }
+  .key.bt .main { color: #1d4ed8; }
+  .key.bt .hold { color: #60a5fa; }
+  .key.danger { background: #fee2e2; border-color: #fca5a5; }
+  .key.danger .main { color: #dc2626; }
+  .key.danger .hold { color: #f87171; }
+  .key.mouse { background: #ede9fe; border-color: #c4b5fd; }
+  .key.mouse .main { color: #6d28d9; }
+  .key.mouse .hold { color: #a78bfa; }
+  .info-section { max-width: 740px; margin: 20px auto 0; padding: 14px 18px; background: #fff; border-radius: 8px; border: 1px solid #ddd; }
+  .info-section h3 { font-size: 0.82rem; margin-bottom: 6px; color: #555; border-bottom: 1px solid #eee; padding-bottom: 4px; }
+  .info-item { font-size: 0.72rem; color: #777; margin-bottom: 3px; }
+  .info-item span { color: #e8740e; font-weight: 500; }
+  .legend { display: flex; justify-content: center; gap: 14px; margin-top: 20px; flex-wrap: wrap; }
+  .legend-item { display: flex; align-items: center; gap: 5px; font-size: 0.68rem; color: #888; }
+  .legend-swatch { width: 14px; height: 14px; border-radius: 3px; border: 1px solid; }
+  .gap { width: 62px; height: 50px; }
+  .page-break { page-break-before: always; }
+</style>
+</head>
+<body>
+
+<h1>Conductor Keymap</h1>
+<p class="subtitle">monokey split keyboard / Seeeduino XIAO BLE / ZMK firmware</p>
+
+<div class="view-toggle">
+  <div class="view-btn active" onclick="setView('tab')">Tab View</div>
+  <div class="view-btn" onclick="setView('all')">All Layers</div>
+</div>
+
+<div class="tabs" id="tabs">
+  <div class="tab active" onclick="showLayer(0)">0: Base</div>
+  <div class="tab" onclick="showLayer(1)">1: Function</div>
+  <div class="tab" onclick="showLayer(2)">2: Symbol</div>
+  <div class="tab" onclick="showLayer(3)">3: Arrow</div>
+  <div class="tab" onclick="showLayer(4)">4: Mouse</div>
+  <div class="tab" onclick="showLayer(5)">5: Scroll</div>
+  <div class="tab" onclick="showLayer(6)">6: Bluetooth</div>
+</div>
+
+<div id="tab-view"></div>
+<div id="all-view"></div>
+
+<div class="info-section">
+  <h3>Combos</h3>
+  <div class="info-item"><span>K + L</span> (pos 17+18) → mo 5 (Scroll layer)</div>
+  <div class="info-item"><span>- + L</span> (pos 19+18) → MB3 (Middle click)</div>
+</div>
+
+<div class="info-section">
+  <h3>Settings</h3>
+  <div class="info-item">&amp;mt: flavor = balanced, quick-tap = 300ms</div>
+  <div class="info-item">&amp;lt: quick-tap = 300ms</div>
+  <div class="info-item">lt_to_layer_0: tapping-term = 200ms (hold → mo layer, tap → to layer 0 + keypress)</div>
+  <div class="info-item">Encoder: PgUp / PgDn (Base), Ctrl+PgUp / Ctrl+PgDn (Arrow)</div>
+</div>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-swatch" style="background:#fff;border-color:#d0d0d0;"></div>Normal</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:#fdf0e0;border-color:#e8a050;"></div>Layer-Tap</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:#f0f0f0;border-color:#c0c0c0;"></div>Modifier</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:#8b5cf6;border-color:#7c3aed;"></div>Highlight</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:#ede9fe;border-color:#c4b5fd;"></div>Mouse</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:#dbeafe;border-color:#93c5fd;"></div>Bluetooth</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:#fee2e2;border-color:#fca5a5;"></div>Danger</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:#f0f0f0;border-color:#e0e0e0;"></div>Transparent</div>
+</div>
+
+<script>
+const layers = [
+  {
+    name: "Layer 0 - Base",
+    desc: "Default / Mac US layout / LANG1·LANG2 for IME",
+    rows: [
+      {
+        left: [
+          {m:"Q"}, {m:"W"}, {m:"E"}, {m:"R"}, {m:"T"}
+        ],
+        right: [
+          {m:"Y"}, {m:"U"}, {m:"I"}, {m:"O"}, {m:"P"}
+        ]
+      },
+      {
+        left: [
+          {m:"A"}, {m:"S"}, {m:"D"}, {m:"F"}, {m:"G"}
+        ],
+        right: [
+          {m:"H"}, {m:"J"}, {m:"K"}, {m:"L"}, {m:"-"}
+        ]
+      },
+      {
+        left: [
+          {m:"Z",h:"Shft",c:"mod"}, {m:"X"}, {m:"C"}, {m:"V"}, {m:"B"}
+        ],
+        right: [
+          {m:"N"}, {m:"M"}, {m:","}, {m:"."}, {m:"/",h:"Shft",c:"mod"}
+        ]
+      },
+      {
+        left: [
+          {m:"Tab",h:"LT:6",c:"lt"}, {m:"Ctrl",c:"mod"}, {m:"Alt",c:"mod"}, {m:"LANG2",h:"GUI",c:"mod"}, {m:"Space",h:"LT:1",c:"lt"}, {m:"BS",h:"LT:2→L0",c:"lt"}
+        ],
+        right: [
+          {m:"Enter",h:"LT:3",c:"lt"}, {m:"LANG1",h:"GUI",c:"mod"}, {c:"gap"}, {m:"Ctrl",c:"mod"}, {m:"Shft",h:"Sticky",c:"mod"}
+        ]
+      }
+    ]
+  },
+  {
+    name: "Layer 1 - Function + Numpad",
+    desc: "Hold Space / F-keys left, numpad right",
+    rows: [
+      {
+        left: [{m:"F1"},{m:"F2"},{m:"F3"},{m:"F4"},{m:"",c:"trans"}],
+        right: [{m:"1"},{m:"2"},{m:"3"},{m:"",c:"trans"},{m:"",c:"trans"}]
+      },
+      {
+        left: [{m:"F5"},{m:"F6"},{m:"F7"},{m:"F8"},{m:"",c:"trans"}],
+        right: [{m:"4"},{m:"5"},{m:"6"},{m:"+"},{m:"-"}]
+      },
+      {
+        left: [{m:"F9"},{m:"F10"},{m:"F11"},{m:"F12"},{m:"",c:"trans"}],
+        right: [{m:"7"},{m:"8"},{m:"9"},{m:"*"},{m:"/"}]
+      },
+      {
+        left: [{m:"",c:"trans"},{m:"",c:"trans"},{m:"",c:"trans"},{m:"",c:"trans"},{m:"",c:"trans"},{m:"",c:"trans"}],
+        right: [{m:"."},{m:"0"},{c:"gap"},{m:"",c:"trans"},{m:"",c:"trans"}]
+      }
+    ]
+  },
+  {
+    name: "Layer 2 - Symbol",
+    desc: "Hold BS / Symbols and brackets",
+    rows: [
+      {
+        left: [{m:"!"},{m:"@"},{m:"#"},{m:"$"},{m:"%"}],
+        right: [{m:"^"},{m:"&"},{m:"*"},{m:"~"},{m:"`"}]
+      },
+      {
+        left: [{m:"="},{m:"<"},{m:"["},{m:"{"},{m:"("}],
+        right: [{m:")"},{m:"}"},{m:"]"},{m:">"},{m:"+"}]
+      },
+      {
+        left: [{m:"_"},{m:"|"},{m:";"},{m:":"},{m:"\\"}],
+        right: [{m:"\""},{m:"'"},{m:"-"},{m:"",c:"trans"},{m:"",c:"trans"}]
+      },
+      {
+        left: [{m:"Esc"},{m:"",c:"trans"},{m:"",c:"trans"},{m:"",c:"trans"},{m:"",c:"trans"},{m:"",c:"trans"}],
+        right: [{m:"",c:"trans"},{m:"",c:"trans"},{c:"gap"},{m:"",c:"trans"},{m:"",c:"trans"}]
+      }
+    ]
+  },
+  {
+    name: "Layer 3 - Arrow + Navigation",
+    desc: "Hold Enter / Arrows, browser tabs, media",
+    rows: [
+      {
+        left: [{m:"",c:"trans"},{m:"⇧Tab",h:"Prev Tab"},{m:"↑"},{m:"Tab",h:"Next Tab"},{m:"",c:"trans"}],
+        right: [{m:"⌥1"},{m:"⌥2"},{m:"⌥3"},{m:"⌥4"},{m:"⌥5"}]
+      },
+      {
+        left: [{m:"Home"},{m:"←"},{m:"↓"},{m:"→"},{m:"End"}],
+        right: [{m:"←"},{m:"↓"},{m:"↑"},{m:"→"},{m:"Del"}]
+      },
+      {
+        left: [{m:"Shft",c:"mod"},{m:"PgUp"},{m:"PgDn"},{m:"",c:"trans"},{m:"",c:"trans"}],
+        right: [{m:"Mute"},{m:"Vol-"},{m:"Vol+"},{m:"Bri-"},{m:"Bri+"}]
+      },
+      {
+        left: [{m:"",c:"trans"},{m:"",c:"trans"},{m:"",c:"trans"},{m:"",c:"trans"},{m:"",c:"trans"},{m:"",c:"trans"}],
+        right: [{m:"",c:"trans"},{m:"",c:"trans"},{c:"gap"},{m:"",c:"trans"},{m:"",c:"trans"}]
+      }
+    ]
+  },
+  {
+    name: "Layer 4 - Mouse",
+    desc: "Auto Mouse Layer (trackball triggers)",
+    rows: [
+      {
+        left: [{m:"",c:"trans"},{m:"",c:"trans"},{m:"",c:"trans"},{m:"",c:"trans"},{m:"",c:"trans"}],
+        right: [{m:"",c:"trans"},{m:"",c:"trans"},{m:"",c:"trans"},{m:"",c:"trans"},{m:"",c:"trans"}]
+      },
+      {
+        left: [{m:"",c:"trans"},{m:"",c:"trans"},{m:"",c:"trans"},{m:"",c:"trans"},{m:"",c:"trans"}],
+        right: [{m:"",c:"trans"},{m:"MB1",h:"Left",c:"mouse"},{m:"MB3",h:"Middle",c:"mouse"},{m:"MB2",h:"Right",c:"mouse"},{m:"mo 5",h:"Scroll",c:"lt"}]
+      },
+      {
+        left: [{m:"",c:"trans"},{m:"",c:"trans"},{m:"",c:"trans"},{m:"",c:"trans"},{m:"",c:"trans"}],
+        right: [{m:"",c:"trans"},{m:"",c:"trans"},{m:"",c:"trans"},{m:"",c:"trans"},{m:"",c:"trans"}]
+      },
+      {
+        left: [{m:"",c:"trans"},{m:"",c:"trans"},{m:"",c:"trans"},{m:"",c:"trans"},{m:"",c:"trans"},{m:"",c:"trans"}],
+        right: [{m:"",c:"trans"},{m:"",c:"trans"},{c:"gap"},{m:"",c:"trans"},{m:"",c:"trans"}]
+      }
+    ]
+  },
+  {
+    name: "Layer 5 - Scroll",
+    desc: "Combo K+L / Trackball becomes scroll wheel",
+    rows: [
+      {
+        left: [{m:"",c:"trans"},{m:"",c:"trans"},{m:"",c:"trans"},{m:"",c:"trans"},{m:"",c:"trans"}],
+        right: [{m:"",c:"trans"},{m:"",c:"trans"},{m:"",c:"trans"},{m:"",c:"trans"},{m:"",c:"trans"}]
+      },
+      {
+        left: [{m:"",c:"trans"},{m:"",c:"trans"},{m:"",c:"trans"},{m:"",c:"trans"},{m:"",c:"trans"}],
+        right: [{m:"",c:"trans"},{m:"",c:"trans"},{m:"",c:"trans"},{m:"",c:"trans"},{m:"",c:"trans"}]
+      },
+      {
+        left: [{m:"",c:"trans"},{m:"",c:"trans"},{m:"",c:"trans"},{m:"",c:"trans"},{m:"",c:"trans"}],
+        right: [{m:"",c:"trans"},{m:"",c:"trans"},{m:"",c:"trans"},{m:"",c:"trans"},{m:"",c:"trans"}]
+      },
+      {
+        left: [{m:"",c:"trans"},{m:"",c:"trans"},{m:"",c:"trans"},{m:"",c:"trans"},{m:"",c:"trans"},{m:"",c:"trans"}],
+        right: [{m:"",c:"trans"},{m:"",c:"trans"},{c:"gap"},{m:"",c:"trans"},{m:"",c:"trans"}]
+      }
+    ]
+  },
+  {
+    name: "Layer 6 - Bluetooth",
+    desc: "Hold Tab / BT profile management",
+    rows: [
+      {
+        left: [{m:"",c:"trans"},{m:"",c:"trans"},{m:"",c:"trans"},{m:"",c:"trans"},{m:"",c:"trans"}],
+        right: [{m:"BT 0",h:"Select",c:"bt"},{m:"BT 1",h:"Select",c:"bt"},{m:"BT 2",h:"Select",c:"bt"},{m:"BT 3",h:"Select",c:"bt"},{m:"",c:"trans"}]
+      },
+      {
+        left: [{m:"",c:"trans"},{m:"",c:"trans"},{m:"",c:"trans"},{m:"",c:"trans"},{m:"",c:"trans"}],
+        right: [{m:"BT 0",h:"Disc",c:"bt"},{m:"BT 1",h:"Disc",c:"bt"},{m:"BT 2",h:"Disc",c:"bt"},{m:"BT 3",h:"Disc",c:"bt"},{m:"",c:"trans"}]
+      },
+      {
+        left: [{m:"",c:"trans"},{m:"",c:"trans"},{m:"",c:"trans"},{m:"",c:"trans"},{m:"",c:"trans"}],
+        right: [{m:"",c:"trans"},{m:"",c:"trans"},{m:"",c:"trans"},{m:"",c:"trans"},{m:"",c:"trans"}]
+      },
+      {
+        left: [{m:"",c:"trans"},{m:"",c:"trans"},{m:"",c:"trans"},{m:"",c:"trans"},{m:"",c:"trans"},{m:"",c:"trans"}],
+        right: [{m:"",c:"trans"},{m:"Boot",h:"Loader",c:"danger"},{c:"gap"},{m:"BT CLR",c:"danger"},{m:"CLR All",c:"danger"}]
+      }
+    ]
+  }
+];
+
+function renderKey(k) {
+  if (k.c === 'gap') return '<div class="gap"></div>';
+  const cls = k.c ? ` ${k.c}` : '';
+  const hold = k.h ? `<span class="hold">${k.h}</span>` : '';
+  const main = k.c === 'trans' ? '▽' : k.m;
+  return `<div class="key${cls}">${hold}<span class="main">${main}</span></div>`;
+}
+
+function renderLayer(layer) {
+  let html = `<div class="layer-header"><div class="layer-title">${layer.name}</div></div>`;
+  html += `<div class="layer-desc">${layer.desc}</div>`;
+  for (const row of layer.rows) {
+    html += '<div class="row"><div class="row-half">';
+    html += row.left.map(renderKey).join('');
+    html += '</div><div class="row-half">';
+    html += row.right.map(renderKey).join('');
+    html += '</div></div>';
+  }
+  return html;
+}
+
+// Build tab view
+const tabView = document.getElementById('tab-view');
+layers.forEach((layer, i) => {
+  const div = document.createElement('div');
+  div.className = 'layer' + (i === 0 ? ' active' : '');
+  div.id = 'layer-' + i;
+  div.innerHTML = renderLayer(layer);
+  tabView.appendChild(div);
+});
+
+// Build all-layers view
+const allView = document.getElementById('all-view');
+layers.forEach((layer) => {
+  const div = document.createElement('div');
+  div.className = 'layer';
+  div.innerHTML = renderLayer(layer);
+  allView.appendChild(div);
+});
+
+function showLayer(n) {
+  document.querySelectorAll('#tab-view .layer').forEach(l => l.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('layer-' + n).classList.add('active');
+  document.querySelectorAll('.tab')[n].classList.add('active');
+}
+
+function setView(mode) {
+  document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+  if (mode === 'tab') {
+    document.getElementById('tab-view').style.display = 'block';
+    document.getElementById('all-view').style.display = 'none';
+    document.getElementById('tabs').style.display = 'flex';
+    document.querySelectorAll('.view-btn')[0].classList.add('active');
+  } else {
+    document.getElementById('tab-view').style.display = 'none';
+    document.getElementById('all-view').style.display = 'block';
+    document.getElementById('tabs').style.display = 'none';
+    document.querySelectorAll('.view-btn')[1].classList.add('active');
+  }
+}
+</script>
+
+</body>
+</html>
