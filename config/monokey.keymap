@@ -27,9 +27,10 @@
     combos {
         compatible = "zmk,combos";
 
-        scroll {
-            bindings = <&mo 5>;
+        space {
+            bindings = <&kp SPACE>;
             key-positions = <17 18>;
+            timeout-ms = <50>;
         };
 
         mb3 {
