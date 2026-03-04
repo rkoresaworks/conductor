@@ -31,7 +31,7 @@ Thumb:  Esc(30)  Alt(31) Tab(32) Cmd(33) Space(34) BS(35)  Enter(36) Cmd(37) RSh
 | 0 | default | ベースレイヤー (QWERTY) |
 | 1 | FUNCTION | F1-F12 + テンキー (Space ホールドで発動) |
 | 2 | NUM | 記号 (BS ホールドで発動) |
-| 3 | ARROW | 矢印・メディア (Enter ホールドで発動) |
+| 3 | ARROW | 矢印・メディア・スクショ (Enter ホールドで発動) |
 | 4 | MOUSE | マウスボタン |
 | 5 | SCROLL | 未使用 |
 | 6 | Bluetooth | BT 接続管理 (Tab ホールドで発動) |
