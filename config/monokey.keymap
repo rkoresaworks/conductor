@@ -112,7 +112,7 @@
             bindings = <
 &kp HOME        &kp LC(LS(TAB))  &kp PG_UP       &kp LC(TAB)      &kp END              &kp LA(NUMBER_1)  &kp LA(NUMBER_2)  &kp LA(NUMBER_3)  &kp LA(NUMBER_4)  &kp LA(NUMBER_5)
 &kp C_MUTE      &kp C_VOL_DN     &kp C_VOL_UP    &kp C_BRI_DN     &kp C_BRI_UP         &kp LEFT_ARROW    &kp DOWN_ARROW    &kp UP_ARROW      &kp RIGHT_ARROW   &kp DELETE
-&kp LEFT_SHIFT  &trans           &kp PG_DN       &trans           &trans               &kp LA(NUMBER_6)  &kp LA(NUMBER_7)  &kp LA(NUMBER_8)  &kp LA(NUMBER_9)  &kp LA(NUMBER_0)
+&kp LEFT_SHIFT  &trans           &kp PG_DN       &trans           &trans               &kp LA(LC(LS(H))) &kp LA(LC(LS(J))) &kp LA(LC(LS(K))) &kp LA(LC(LS(L))) &kp LA(LS(B))
 &trans          &trans           &trans          &trans           &trans   &trans    &trans            &trans                                                    &trans           &kp LG(LS(N4))
             >;
 
