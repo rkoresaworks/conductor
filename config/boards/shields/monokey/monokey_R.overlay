@@ -32,8 +32,8 @@
         18 // L → MB2
         19 // - → mo 5 (Scroll)
     >;
-    require-prior-idle-ms = <300>;
-    // トラボ誤爆防止: タイピング後300ms経過しないとAMLが発動しない
+    require-prior-idle-ms = <500>;
+    // トラボ誤爆防止: タイピング後500ms経過しないとAMLが発動しない
 };
 
 
